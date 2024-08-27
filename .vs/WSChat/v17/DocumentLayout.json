@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Python\\WSChat\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Python\\WSChat\\Main\\Templates\\chat.html||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Main\\Templates\\chat.html||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Python\\WSChat\\Main\\server.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Main\\server.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Python\\WSChat\\Main\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Main\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Python\\WSChat\\Main\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Main\\__init__.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Python\\WSChat\\Main\\config.cfg||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Main\\config.cfg||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Python\\WSChat\\Main\\client.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Main\\client.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "server.py",
+              "DocumentMoniker": "D:\\Python\\WSChat\\Main\\server.py",
+              "RelativeDocumentMoniker": "Main\\server.py",
+              "ToolTip": "D:\\Python\\WSChat\\Main\\server.py",
+              "RelativeToolTip": "Main\\server.py",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAAYAAAAOAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALoSURBVDhPdZG9a2RlFMZ/73vvzWQys3fuzM4kTJaw0cZGWUEkFkEhNhrBDzQp4gesjZXglguCbq3gP7CBLbIgprDaTJGQmEVwipAiEbewWTETYZDZ\u002Bcjce\u002Bfmfd9jMY7aeOA0h3N\u002Bz/NwVKPREK01/9ee56GUwjmHtfbL5eXlO0xKRNjd3ZXj42M5OzuTOI4lTVNJ01SyLJMsy8QYI81mU0ajkRwdHcnBwcEX/wAAtb\u002B/L4uLi9TrdbTWtFot8vk8uVyOwWDAwsICIoLWGhGh0\u002BlQrVbVBOB7nkev12N6eprZ2VmCICCXyzEzM0OxWGTrx8fc/\u002BFn4kGP0Mv4YOU5ROSBUuoNAO37PlEUUalU0FpTrVaJooggCAiCgLt7p3z90UtoExMPetz7fhfglYkD7fs\u002B/X6fJ0\u002BeICKcn58jIig1dnl4502evV7j1ttLaJPgshSgICJDEXngO\u002BcIw5AoirDWUq/X2frpd\u002B7u/YKkA/TlEC\u002B7QF8O0TZF67\u002BlH783w5W1VW2Modfr0el0cM6Rz\u002BfZevgrMhqiTYK\u002BjFEmQZsEBaws3QDzJ4wu4PwevrWWMAwpl8tYawGIL/pok/DCU1e5vfEutag4iTw\u002B/uMrGCWQDMeAbrfL1NQUYRgiIoS\u002BIU4Sbm\u002B8Qy34FjpNcBbSGNIhJMMxwAZoYwylUolKpYJzDmMM77/8DFMuHSuPmiAOshSyZHyYJTC6hGs3UTs7OzI3N0etVqNQKABQLBYJgmD8ic7HkI2g8CFcee3fKBADh9paS6lUolwukyQJWZbR7XZpt9uICBg3Vm19A8NTaL4IkCilCkqpVd8YQ6vV4uTkxBhjWs65aqFQKMzPzxOGIfnpt6B/fwx59Clc\u002BwTgcGJDW2u77Xb7M2PM1fX19UVrbdTtdldPT08PGo0G5xdLuKe/gxsPMc/v0S\u002BtP1JKvT4BqO3t7etra2u/TQb/rc3NzVe11rc8z1vRWqdKqS2l1OcbGxv9yc5fQQ1xCC7GT7kAAAAASUVORK5CYII=",
+              "WhenOpened": "2024-08-27T16:27:07.514Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "main.py",
+              "DocumentMoniker": "D:\\Python\\WSChat\\Main\\main.py",
+              "RelativeDocumentMoniker": "Main\\main.py",
+              "ToolTip": "D:\\Python\\WSChat\\Main\\main.py",
+              "RelativeToolTip": "Main\\main.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAOAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALoSURBVDhPdZG9a2RlFMZ/73vvzWQys3fuzM4kTJaw0cZGWUEkFkEhNhrBDzQp4gesjZXglguCbq3gP7CBLbIgprDaTJGQmEVwipAiEbewWTETYZDZ\u002Bcjce\u002Bfmfd9jMY7aeOA0h3N\u002Bz/NwVKPREK01/9ee56GUwjmHtfbL5eXlO0xKRNjd3ZXj42M5OzuTOI4lTVNJ01SyLJMsy8QYI81mU0ajkRwdHcnBwcEX/wAAtb\u002B/L4uLi9TrdbTWtFot8vk8uVyOwWDAwsICIoLWGhGh0\u002BlQrVbVBOB7nkev12N6eprZ2VmCICCXyzEzM0OxWGTrx8fc/\u002BFn4kGP0Mv4YOU5ROSBUuoNAO37PlEUUalU0FpTrVaJooggCAiCgLt7p3z90UtoExMPetz7fhfglYkD7fs\u002B/X6fJ0\u002BeICKcn58jIig1dnl4502evV7j1ttLaJPgshSgICJDEXngO\u002BcIw5AoirDWUq/X2frpd\u002B7u/YKkA/TlEC\u002B7QF8O0TZF67\u002BlH783w5W1VW2Modfr0el0cM6Rz\u002BfZevgrMhqiTYK\u002BjFEmQZsEBaws3QDzJ4wu4PwevrWWMAwpl8tYawGIL/pok/DCU1e5vfEutag4iTw\u002B/uMrGCWQDMeAbrfL1NQUYRgiIoS\u002BIU4Sbm\u002B8Qy34FjpNcBbSGNIhJMMxwAZoYwylUolKpYJzDmMM77/8DFMuHSuPmiAOshSyZHyYJTC6hGs3UTs7OzI3N0etVqNQKABQLBYJgmD8ic7HkI2g8CFcee3fKBADh9paS6lUolwukyQJWZbR7XZpt9uICBg3Vm19A8NTaL4IkCilCkqpVd8YQ6vV4uTkxBhjWs65aqFQKMzPzxOGIfnpt6B/fwx59Clc\u002BwTgcGJDW2u77Xb7M2PM1fX19UVrbdTtdldPT08PGo0G5xdLuKe/gxsPMc/v0S\u002BtP1JKvT4BqO3t7etra2u/TQb/rc3NzVe11rc8z1vRWqdKqS2l1OcbGxv9yc5fQQ1xCC7GT7kAAAAASUVORK5CYII=",
+              "WhenOpened": "2024-08-27T16:27:06.519Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "client.py",
+              "DocumentMoniker": "D:\\Python\\WSChat\\Main\\client.py",
+              "RelativeDocumentMoniker": "Main\\client.py",
+              "ToolTip": "D:\\Python\\WSChat\\Main\\client.py",
+              "RelativeToolTip": "Main\\client.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALoSURBVDhPdZG9a2RlFMZ/73vvzWQys3fuzM4kTJaw0cZGWUEkFkEhNhrBDzQp4gesjZXglguCbq3gP7CBLbIgprDaTJGQmEVwipAiEbewWTETYZDZ\u002Bcjce\u002Bfmfd9jMY7aeOA0h3N\u002Bz/NwVKPREK01/9ee56GUwjmHtfbL5eXlO0xKRNjd3ZXj42M5OzuTOI4lTVNJ01SyLJMsy8QYI81mU0ajkRwdHcnBwcEX/wAAtb\u002B/L4uLi9TrdbTWtFot8vk8uVyOwWDAwsICIoLWGhGh0\u002BlQrVbVBOB7nkev12N6eprZ2VmCICCXyzEzM0OxWGTrx8fc/\u002BFn4kGP0Mv4YOU5ROSBUuoNAO37PlEUUalU0FpTrVaJooggCAiCgLt7p3z90UtoExMPetz7fhfglYkD7fs\u002B/X6fJ0\u002BeICKcn58jIig1dnl4502evV7j1ttLaJPgshSgICJDEXngO\u002BcIw5AoirDWUq/X2frpd\u002B7u/YKkA/TlEC\u002B7QF8O0TZF67\u002BlH783w5W1VW2Modfr0el0cM6Rz\u002BfZevgrMhqiTYK\u002BjFEmQZsEBaws3QDzJ4wu4PwevrWWMAwpl8tYawGIL/pok/DCU1e5vfEutag4iTw\u002B/uMrGCWQDMeAbrfL1NQUYRgiIoS\u002BIU4Sbm\u002B8Qy34FjpNcBbSGNIhJMMxwAZoYwylUolKpYJzDmMM77/8DFMuHSuPmiAOshSyZHyYJTC6hGs3UTs7OzI3N0etVqNQKABQLBYJgmD8ic7HkI2g8CFcee3fKBADh9paS6lUolwukyQJWZbR7XZpt9uICBg3Vm19A8NTaL4IkCilCkqpVd8YQ6vV4uTkxBhjWs65aqFQKMzPzxOGIfnpt6B/fwx59Clc\u002BwTgcGJDW2u77Xb7M2PM1fX19UVrbdTtdldPT08PGo0G5xdLuKe/gxsPMc/v0S\u002BtP1JKvT4BqO3t7etra2u/TQb/rc3NzVe11rc8z1vRWqdKqS2l1OcbGxv9yc5fQQ1xCC7GT7kAAAAASUVORK5CYII=",
+              "WhenOpened": "2024-08-27T16:27:02.335Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "chat.html",
+              "DocumentMoniker": "D:\\Python\\WSChat\\Main\\Templates\\chat.html",
+              "RelativeDocumentMoniker": "Main\\Templates\\chat.html",
+              "ToolTip": "D:\\Python\\WSChat\\Main\\Templates\\chat.html",
+              "RelativeToolTip": "Main\\Templates\\chat.html",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAFcAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-27T16:31:33.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "config.cfg",
+              "DocumentMoniker": "D:\\Python\\WSChat\\Main\\config.cfg",
+              "RelativeDocumentMoniker": "Main\\config.cfg",
+              "ToolTip": "D:\\Python\\WSChat\\Main\\config.cfg",
+              "RelativeToolTip": "Main\\config.cfg",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-08-27T16:27:09.797Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "__init__.py",
+              "DocumentMoniker": "D:\\Python\\WSChat\\Main\\__init__.py",
+              "RelativeDocumentMoniker": "Main\\__init__.py",
+              "ToolTip": "D:\\Python\\WSChat\\Main\\__init__.py",
+              "RelativeToolTip": "Main\\__init__.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALoSURBVDhPdZG9a2RlFMZ/73vvzWQys3fuzM4kTJaw0cZGWUEkFkEhNhrBDzQp4gesjZXglguCbq3gP7CBLbIgprDaTJGQmEVwipAiEbewWTETYZDZ\u002Bcjce\u002Bfmfd9jMY7aeOA0h3N\u002Bz/NwVKPREK01/9ee56GUwjmHtfbL5eXlO0xKRNjd3ZXj42M5OzuTOI4lTVNJ01SyLJMsy8QYI81mU0ajkRwdHcnBwcEX/wAAtb\u002B/L4uLi9TrdbTWtFot8vk8uVyOwWDAwsICIoLWGhGh0\u002BlQrVbVBOB7nkev12N6eprZ2VmCICCXyzEzM0OxWGTrx8fc/\u002BFn4kGP0Mv4YOU5ROSBUuoNAO37PlEUUalU0FpTrVaJooggCAiCgLt7p3z90UtoExMPetz7fhfglYkD7fs\u002B/X6fJ0\u002BeICKcn58jIig1dnl4502evV7j1ttLaJPgshSgICJDEXngO\u002BcIw5AoirDWUq/X2frpd\u002B7u/YKkA/TlEC\u002B7QF8O0TZF67\u002BlH783w5W1VW2Modfr0el0cM6Rz\u002BfZevgrMhqiTYK\u002BjFEmQZsEBaws3QDzJ4wu4PwevrWWMAwpl8tYawGIL/pok/DCU1e5vfEutag4iTw\u002B/uMrGCWQDMeAbrfL1NQUYRgiIoS\u002BIU4Sbm\u002B8Qy34FjpNcBbSGNIhJMMxwAZoYwylUolKpYJzDmMM77/8DFMuHSuPmiAOshSyZHyYJTC6hGs3UTs7OzI3N0etVqNQKABQLBYJgmD8ic7HkI2g8CFcee3fKBADh9paS6lUolwukyQJWZbR7XZpt9uICBg3Vm19A8NTaL4IkCilCkqpVd8YQ6vV4uTkxBhjWs65aqFQKMzPzxOGIfnpt6B/fwx59Clc\u002BwTgcGJDW2u77Xb7M2PM1fX19UVrbdTtdldPT08PGo0G5xdLuKe/gxsPMc/v0S\u002BtP1JKvT4BqO3t7etra2u/TQb/rc3NzVe11rc8z1vRWqdKqS2l1OcbGxv9yc5fQQ1xCC7GT7kAAAAASUVORK5CYII=",
+              "WhenOpened": "2024-08-27T16:27:08.433Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
