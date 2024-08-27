@@ -8,59 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <script>
-        // Функция для запроса нового сессионного ключа и его установки
-        async function requestNewSessionToken() {
-            try {
-                const response = await fetch('/generate-new-session-token', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
-                const data = await response.json();
-                if (data.session_token) {
-                    // Устанавливаем новый сессионный токен в куки
-                    document.cookie = `session_token=${data.session_token}; path=/; max-age=1800; SameSite=Lax;`;
-                    console.log('New session token set:', data.session_token);
-                } else {
-                    console.error('Failed to get new session token:', data.error);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-    
-        // Функция для проверки наличия куки, установки её при необходимости и отправки результата на сервер
-        async function checkAndSetCookie() {
-            const sessionTokenKey = 'session_token';
-            const sessionToken = document.cookie.split('; ').find(row => row.startsWith(sessionTokenKey + '='));
-    
-            if (!sessionToken) {
-                // Если кука не найдена, запрашиваем новый сессионный ключ
-                await requestNewSessionToken();
-            }
-    
-            // Отправляем результат обратно на сервер
-            try {
-                const response = await fetch('/report-cookie-status', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ cookieExists: !!sessionToken })
-                });
-                const data = await response.json();
-                console.log('Response from server:', data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-    
-        // Вызываем функцию после загрузки страницы
-        window.onload = checkAndSetCookie;
-    </script>
-    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">ChatApp</a>

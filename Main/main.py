@@ -13,7 +13,7 @@ def init_db():
     conn = sqlite3.connect("Database.db")
     cursor = conn.cursor()
     # Создание таблицы пользователей (если она не существует)
-    cursor.execute('''
+    cursor.execute(''' 
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
