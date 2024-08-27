@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <!-- Подключение Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Chat Application</h1>
+        {% if user_info %}
+        <p>Welcome, {{ user_info.username }}!</p>
+        <div id="chatbox" class="border rounded p-3 mb-3" style="height: 300px; overflow-y: scroll;">
+            <!-- Сообщения будут добавляться сюда -->
+        </div>
+        <form id="chat-form">
+            <div class="input-group">
+                <input type="text" id="message-input" class="form-control" placeholder="Enter your message..." required>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+        </form>
+        {% else %}
+        <p>You are not logged in. Please register to use the chat.</p>
+        <form id="register-form" method="post" action="/users/">
+            <div class="input-group mb-3">
+                <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" name="full_name" class="form-control" placeholder="Enter full name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        {% endif %}
+    </div>
+
+    {% if user_info %}
+    <script>
+        const username = "{{ user_info.username }}";
+        const chatbox = document.getElementById("chatbox");
+        const form = document.getElementById("chat-form");
+        const input = document.getElementById("message-input");
+
+        const ws = new WebSocket(`ws://localhost:8000/ws/chat/${username}`);
+
+        ws.onmessage = function(event) {
+            const message = document.createElement('div');
+            message.classList.add('p-2', 'mb-2', 'bg-light', 'rounded');
+            message.textContent = event.data;
+            chatbox.appendChild(message);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        };
+
+        form.onsubmit = function(event) {
+            event.preventDefault();
+            ws.send(input.value);
+            input.value = '';
+        };
+    </script>
+    {% endif %}
+    <script>
+        // Функция для проверки наличия куки и отправки результата на сервер
+        function checkCookieAndReport() {
+            const sessionToken = document.cookie.split('; ').find(row => row.startsWith('session_token='));
+    
+            let result = false;
+            if (sessionToken) {
+                result = true;
+            }
+    
+            // Отправляем результат обратно на сервер
+            fetch('/report-cookie-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cookieExists: result })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from server:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    
+        // Вызываем функцию после загрузки страницы
+        window.onload = checkCookieAndReport;
+    </script>
+    
+</body>
+</html>

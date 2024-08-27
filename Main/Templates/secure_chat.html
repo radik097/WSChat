@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Chat</title>
+    <!-- Подключение Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <script>
+        // Функция для запроса нового сессионного ключа и его установки
+        function requestNewSessionToken() {
+            fetch('/generate-new-session-token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.session_token) {
+                    // Устанавливаем новый сессионный токен в куки
+                    document.cookie = `session_token=${data.session_token}; path=/; max-age=1800; SameSite=Lax;`;
+                    console.log('New session token set:', data.session_token);
+                } else {
+                    console.error('Failed to get new session token:', data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    
+        // Функция для проверки наличия куки, установки её при необходимости и отправки результата на сервер
+        function checkAndSetCookie() {
+            const sessionTokenKey = 'session_token';
+            const sessionToken = document.cookie.split('; ').find(row => row.startsWith(sessionTokenKey + '='));
+    
+            let cookieExists = false;
+            if (sessionToken) {
+                cookieExists = true;
+            } else {
+                // Если кука не найдена, запрашиваем новый сессионный ключ
+                requestNewSessionToken();
+                cookieExists = true;
+            }
+    
+            // Отправляем результат обратно на сервер
+            fetch('/report-cookie-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cookieExists: cookieExists })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from server:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    
+        // Вызываем функцию после загрузки страницы
+        window.onload = checkAndSetCookie;
+    </script>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">ChatApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/friends">Friends</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/chat">Group Chat</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Private Chat</h1>
+        {% if user_info %}
+        <div class="row">
+            <!-- Список друзей -->
+            <div class="col-md-4">
+                <h4>Friends</h4>
+                <ul class="list-group" id="friend-list">
+                    {% for friend in friends %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="#" class="friend" data-friend="{{ friend.username }}">{{ friend.username }}</a>
+                        <button class="btn btn-danger btn-sm remove-friend" data-friend="{{ friend.username }}">Remove</button>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <hr>
+                <h4>Add Friend</h4>
+                <form id="add-friend-form">
+                    <div class="input-group mb-3">
+                        <input type="text" id="friend-username" class="form-control" placeholder="Enter friend's username" required>
+                        <button type="submit" class="btn btn-success">Add</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Чат -->
+            <div class="col-md-8">
+                <div id="chatbox" class="border rounded p-3 mb-3" style="height: 300px; overflow-y: scroll;">
+                    <!-- Сообщения будут добавляться сюда -->
+                </div>
+                <form id="chat-form">
+                    <div class="input-group">
+                        <input type="text" id="message-input" class="form-control" placeholder="Enter your message..." required>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <p>Please register or log in to use the chat.</p>
+        <a href="/register" class="btn btn-success">Register</a>
+        <a href="/login" class="btn btn-primary">Log in</a>
+        {% endif %}
+    </div>
+
+    {% if user_info %}
+    <script>
+        const username = "{{ user_info.username }}";
+        const chatbox = document.getElementById("chatbox");
+        const form = document.getElementById("chat-form");
+        const input = document.getElementById("message-input");
+        let activeFriend = null;
+
+        // Добавляем обработчик для выбора друга
+        document.querySelectorAll('.friend').forEach(friendElement => {
+            friendElement.addEventListener('click', function(event) {
+                event.preventDefault();
+                activeFriend = this.dataset.friend;
+                chatbox.innerHTML = ''; // Очистка чата при выборе нового друга
+                loadMessages(activeFriend); // Загрузка истории сообщений
+                console.log(`Selected friend: ${activeFriend}`);
+            });
+        });
+
+        // Функция загрузки сообщений
+        function loadMessages(friend) {
+            fetch(`/messages?friend=${friend}`)
+                .then(response => response.json())
+                .then(data => {
+                    chatbox.innerHTML = '';
+                    data.messages.forEach(message => {
+                        const messageElement = document.createElement('div');
+                        messageElement.classList.add('p-2', 'mb-2', 'bg-light', 'rounded');
+                        messageElement.textContent = message.content;
+                        chatbox.appendChild(messageElement);
+                    });
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                })
+                .catch(error => console.error('Error loading messages:', error));
+        }
+
+        // WebSocket для отправки и получения сообщений
+        const ws = new WebSocket(`ws://localhost:8000/ws/chat/${username}`);
+
+        ws.onmessage = function(event) {
+            const message = document.createElement('div');
+            message.classList.add('p-2', 'mb-2', 'bg-light', 'rounded');
+            message.textContent = event.data;
+            chatbox.appendChild(message);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        };
+
+        form.onsubmit = function(event) {
+            event.preventDefault();
+            if (activeFriend) {
+                const message = { to: activeFriend, content: input.value };
+                ws.send(JSON.stringify(message));  // Убедитесь, что данные преобразуются в JSON
+                input.value = '';
+            } else {
+                alert("Please select a friend to chat with.");
+            }
+        };
+        
+        form.onsubmit = function(event) {
+            event.preventDefault();
+            if (activeFriend) {
+                const message = { to: activeFriend, content: input.value };
+                console.log("Sending message:", message);  // Логируем сообщение перед отправкой
+                ws.send(JSON.stringify(message));
+                input.value = '';
+            } else {
+                alert("Please select a friend to chat with.");
+            }
+        };
+
+        // Обработка добавления друга
+        document.getElementById('add-friend-form').onsubmit = function(event) {
+            event.preventDefault();
+            const friendUsername = document.getElementById('friend-username').value;
+            fetch('/friends/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `username=${username}&friend_username=${friendUsername}`
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                location.reload(); // Перезагружаем страницу для обновления списка друзей
+            })
+            .catch(error => console.error('Error adding friend:', error));
+        };
+
+        // Обработка удаления друга
+        document.querySelectorAll('.remove-friend').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const friendUsername = this.dataset.friend;
+                fetch('/friends/remove', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `username=${username}&friend_username=${friendUsername}`
+                })
+                .then(response => response.text())
+                .then(result => {
+                    alert(result);
+                    location.reload(); // Перезагружаем страницу для обновления списка друзей
+                })
+                .catch(error => console.error('Error removing friend:', error));
+            });
+        });
+
+    </script>
+    {% endif %}
+    
+    <!-- Подключение Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
