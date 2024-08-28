@@ -34,6 +34,7 @@
 
     <div class="container mt-5">
         <h1 class="text-center">Private Chat</h1>
+        <b>{{ user_info }}</b>
         {% if user_info %}
         <div class="row">
             <!-- Список друзей -->
@@ -42,16 +43,16 @@
                 <ul class="list-group" id="friend-list">
                     {% for friend in friends %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="#" class="friend" data-friend="{{ friend.username }}">{{ friend.username }}</a>
-                        <button class="btn btn-danger btn-sm remove-friend" data-friend="{{ friend.username }}">Remove</button>
+                        <a href="#" class="friend" data-friend="{{ friend }}">{{ friend }}</a>
+                        <button class="btn btn-danger btn-sm remove-friend" data-friend="{{ friend }}">Remove</button>
                     </li>
                     {% endfor %}
                 </ul>
                 <hr>
                 <h4>Add Friend</h4>
-                <form id="add-friend-form">
+                <form id="add-friend-form", action="/add_friend", method="POST">
                     <div class="input-group mb-3">
-                        <input type="text" id="friend-username" class="form-control" placeholder="Enter friend's username" required>
+                        <input type="text" id="friend-username" name="friend_username" class="form-control" placeholder="Enter friend's username" required>
                         <button type="submit" class="btn btn-success">Add</button>
                     </div>
                 </form>
@@ -79,7 +80,7 @@
 
     {% if user_info %}
     <script>
-        const username = "{{ user_info.username }}";
+        const username = "{{ user_info }}";
         const chatbox = document.getElementById("chatbox");
         const form = document.getElementById("chat-form");
         const input = document.getElementById("message-input");
@@ -134,29 +135,17 @@
                 alert("Please select a friend to chat with.");
             }
         };
-        
-        form.onsubmit = function(event) {
-            event.preventDefault();
-            if (activeFriend) {
-                const message = { to: activeFriend, content: input.value };
-                console.log("Sending message:", message);  // Логируем сообщение перед отправкой
-                ws.send(JSON.stringify(message));
-                input.value = '';
-            } else {
-                alert("Please select a friend to chat with.");
-            }
-        };
 
         // Обработка добавления друга
         document.getElementById('add-friend-form').onsubmit = function(event) {
             event.preventDefault();
             const friendUsername = document.getElementById('friend-username').value;
-            fetch('/friends/add', {
+            fetch('/add_friend', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: `username=${username}&friend_username=${friendUsername}`
+                body: `friend_username=${friendUsername}`
             })
             .then(response => response.text())
             .then(result => {

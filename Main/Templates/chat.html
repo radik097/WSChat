@@ -20,7 +20,7 @@
                         <a class="nav-link" href="/friends">Friends</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Group Chat</a>
+                        <a class="nav-link" href="/chat">Group Chat</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -61,7 +61,7 @@
         let ws;
 
         function connectWebSocket() {
-            ws = new WebSocket(`ws://localhost:8000/ws/group_chat`);
+            ws = new WebSocket(`ws://localhost:8000/ws/group_chat/${username}`);
 
             ws.onmessage = function(event) {
                 const data = JSON.parse(event.data); // Предполагается, что данные приходят в формате JSON

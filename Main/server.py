@@ -1,7 +1,7 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Request, Response, Form, Header
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
-from typing import Dict, Optional
+from typing import Dict
 from pydantic import BaseModel
 import sqlite3
 import uuid
@@ -20,8 +20,8 @@ import logging
 logging.basicConfig(level="INFO", format="%(message)s", handlers=[rich.logging.RichHandler()])
 logger = logging.getLogger("server")
 
-console = rich.console.Console()
-rich.traceback.install(console=console)
+console = rich.console.Console(color_system="windows")
+rich.traceback.install(console=console, show_locals=True)
 
 app = FastAPI()
 
@@ -117,6 +117,10 @@ class ConnectionManager:
         if connection:
             await connection.send_text(message)
 
+    async def send_group_message(self, message: str):
+        for connection in self.active_connections.values():
+            await connection.send_text(message)
+
 manager = ConnectionManager()
 
 @app.get("/friends", response_class=HTMLResponse)
@@ -124,8 +128,11 @@ async def secure_chat(request: Request):
     try:
         conn = get_db_connection()
         curs = conn.cursor()
-        friends = curs.execute("SELECT friends FROM users WHERE username = ?", (request.cookies.get("username"),)).fetchall()
-        return templates.TemplateResponse("secure_chat.html", {"request": request, "friends": friends})
+        logger.info(f"User {request.cookies.get('username')} loaded friends page")
+        user_info = request.cookies.get("username")
+        friends = curs.execute("SELECT friends FROM users WHERE username = ?", (request.cookies.get("username"),)).fetchone()[0].split(",")
+        logger.info(f"{friends},{request.cookies.get('username')}, {user_info}")
+        return templates.TemplateResponse("secure_chat.html", {"request": request, "friends": friends, "user_info": user_info})
     except HTTPException as e:
         console.print(f"[bold red]Error loading friends page:[/bold red] {str(e)}")
         console.print_exception()
@@ -142,6 +149,51 @@ async def secure_chat(request: Request):
         console.print(f"[bold red]Error loading friends page:[/bold red] {str(e)}")
         console.print_exception()
         return templates.TemplateResponse("error.html", {"request": request, "title": "500", "message": "Internal Server Error"})
+
+@app.post("/add_friend", response_class=HTMLResponse)
+async def add_friend(request: Request):
+    try:
+        form_data = await request.form()
+        friend_username = form_data.get("friend_username")
+        conn = get_db_connection()
+        curs = conn.cursor()
+        current_user = request.cookies.get("username")
+
+        logger.info(f"User {current_user} is trying to add friend {friend_username}")
+
+        if friend_username == current_user:
+            raise HTTPException(status_code=400, detail="You cannot add yourself as a friend")
+
+        # Проверяем, существует ли пользователь с таким именем
+        friend = curs.execute("SELECT * FROM users WHERE username = ?", (friend_username,)).fetchone()
+        if not friend:
+            raise HTTPException(status_code=404, detail="Friend not found")
+
+        # Получаем текущий список друзей
+        user = curs.execute("SELECT friends FROM users WHERE username = ?", (current_user,)).fetchone()
+        current_friends = user["friends"].split(",") if user["friends"] else []
+
+        if friend_username in current_friends:
+            raise HTTPException(status_code=400, detail="You are already friends with this user")
+
+        # Обновляем список друзей
+        new_friends_list = ",".join(current_friends + [friend_username])
+        curs.execute("UPDATE users SET friends = ? WHERE username = ?", (new_friends_list, current_user))
+        conn.commit()
+
+        return HTMLResponse(f"Friend {friend_username} added successfully!")
+        
+    except HTTPException as e:
+        console.print(f"[bold red]Error adding friend:[/bold red] {str(e)}")
+        console.print_exception()
+        return HTMLResponse(f"Error: {e.detail}")
+    except Exception as e:
+        console.print(f"[bold red]Error adding friend:[/bold red] {str(e)}")
+        console.print_exception()
+        return HTMLResponse("An error occurred while adding the friend.")
+    finally:
+        if conn:
+            conn.close()
 
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
@@ -160,7 +212,48 @@ async def register_page(request: Request):
         console.print(f"[bold red]Error loading register page:[/bold red] {str(e)}")
         console.print_exception()
         return templates.TemplateResponse("error.html", {"request": request, "title": "500", "message": "Internal Server Error"})
-    
+
+@app.websocket("/ws/group_chat/{username}")
+async def websocket_group_chat(websocket: WebSocket, username: str):
+    try:
+        await manager.connect(websocket, username)
+
+        # Загрузка истории сообщений при подключении пользователя
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT sender, message FROM messages WHERE chat_name = ?", ("group_chat",))
+        messages = cursor.fetchall()
+        conn.close()
+
+        # Отправляем историю сообщений новому подключенному пользователю
+        for sender, message in messages:
+            await websocket.send_text(json.dumps({"sender": sender, "content": message}))
+
+        # Основной цикл для обработки новых сообщений
+        while True:
+            data = await websocket.receive_text()
+            if not data.strip():
+                console.print("[bold yellow]Warning: Received empty message[/bold yellow]")
+                continue
+
+            # Сохраняем сообщение в базе данных
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO messages (chat_name, sender, message) VALUES (?, ?, ?)",
+                ("group_chat", username, data)
+            )
+            conn.commit()
+            conn.close()
+
+            # Отправляем сообщение всем подключенным пользователям
+            await manager.send_group_message(json.dumps({"sender": username, "content": data}))
+
+    except WebSocketDisconnect:
+        manager.disconnect(username)
+    except Exception as e:
+        console.print(f"[bold red]Error in WebSocket group chat connection:[/bold red] {str(e)}")
+        console.print_exception()
 
 @app.websocket("/ws/chat/{username}")
 async def websocket_endpoint(websocket: WebSocket, username: str, token: str = Header(None)):
@@ -211,6 +304,11 @@ async def websocket_endpoint(websocket: WebSocket, username: str, token: str = H
         console.print(f"[bold red]Error in WebSocket connection:[/bold red] {str(e)}")
         console.print_exception()
 
+def send_token_and_username_to_cookie(response: Response, token: str, username: str):
+    response.set_cookie(key="username", value=username, httponly=True)  # Set the username cookie
+    response.set_cookie(key="token", value=token, httponly=True)  # Set the token cookie with httponly=True
+    return response
+
 def validate_token(token: str, username: str) -> bool:
     try:
         conn = get_db_connection()
@@ -259,7 +357,12 @@ def register_user(response: Response, request: Request, username: str = Form(...
         )
         conn.commit()
 
-        return templates.TemplateResponse("chat.html", {"request": request, "user_info": {"username": username, "full_name": full_name}, "session_token": session_token})
+        # Записываем токен и имя пользователя в куки
+        send_token_and_username_to_cookie(response, session_token, username)
+
+        # Перенаправляем пользователя на страницу чата
+        return RedirectResponse(url="/chat", status_code=302)
+        
     except sqlite3.IntegrityError as e:
         console.print(f"[bold red]Database IntegrityError:[/bold red] {str(e)}")
         console.print_exception()
@@ -303,7 +406,14 @@ def login_user(response: Response, request: Request, username: str = Form(...), 
         )
         conn.commit()
 
-        return templates.TemplateResponse("chat.html", {"request": request, "user_info": {"username": username, "full_name": user["full_name"]}, "session_token": session_token})
+        # Set cookies for session token and username
+        response = send_token_and_username_to_cookie(response, session_token, username)
+        
+        # Redirecting to the chat page after setting the cookies
+        response = RedirectResponse(url="/chat", headers=response.headers, status_code=302)
+        
+        return response
+        
     except Exception as e:
         console.print(f"[bold red]Error during user login:[/bold red] {str(e)}")
         console.print_exception()
@@ -325,7 +435,30 @@ async def logout(request: Request, response: Response, token: str = Header(None)
         console.print_exception()
         return templates.TemplateResponse("error.html", {"request": request, "title": "500", "message": "Internal Server Error"})
     finally:
-        conn.close()
+        if conn:
+            conn.close()
+
+@app.get("/chat", response_class=HTMLResponse)
+async def chat_page(request: Request):
+    try:
+        token = request.cookies.get("token")
+        conn = get_db_connection()
+        if conn is None:
+            raise HTTPException(status_code=500, detail="Database connection failed")
+
+        cursor = conn.cursor()
+        user = cursor.execute(
+            "SELECT * FROM users WHERE session_token = ?", (token,)
+        ).fetchone()
+
+        if user is None:
+            raise HTTPException(status_code=401, detail="Invalid session token")
+
+        return templates.TemplateResponse("chat.html", {"request": request, "user_info": {"username": user["username"], "full_name": user["full_name"]}})
+    except Exception as e:
+        console.print(f"[bold red]Error loading chat page:[/bold red] {str(e)}")
+        console.print_exception()
+        return templates.TemplateResponse("error.html", {"request": request, "title": "500", "message": "Internal Server Error"})
 
 @app.get("/", response_class=HTMLResponse)
 async def get(request: Request, token: str = Header(None)):
