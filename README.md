@@ -1,80 +1,78 @@
-# Project Name
+### Overview of the Fortichat Project
 
-[Project Name] — это [краткое описание проекта. Например: "веб-приложение для обфускации кода на Python с использованием Flask"].
+**Fortichat** is a web application designed for secure communication through the obfuscation and encryption of messages, implemented using Python and the Flask framework. Below is a detailed breakdown of the project as outlined in the provided files.
 
-## Содержание
+### 1. Introduction
 
-- [Введение](#введение)
-- [Начало работы](#начало-работы)
-- [Установка](#установка)
-- [Использование](#использование)
-- [Поддержка](#поддержка)
-- [История изменений](#история-изменений)
-- [Лицензия](#лицензия)
+Fortichat is a secure messaging platform where users can register, log in, and exchange encrypted messages. The application uses AES encryption (Advanced Encryption Standard) for securing messages and SHA-256 hashing for password management. The purpose of this project is to provide a secure communication channel that protects user data and ensures privacy.
 
-## Введение
+### 2. Getting Started
 
-Это введение в проект. Объясните, зачем был создан проект, какие задачи он решает и какие основные функции предоставляет.
+#### Prerequisites
+- **Python 3.12** or higher
+- **Flask 2.x**
+- Additional Python libraries listed in `requirements.txt` (these should be installed during setup).
 
-## Начало работы
+### 3. Installation
 
-Здесь можно описать минимальные требования к системе и необходимые шаги для подготовки к работе с проектом.
+To install the Fortichat application, follow these steps:
 
-### Предварительные условия
-
-- Python 3.12 или выше
-- Flask 2.x
-- Другие зависимости, которые требуется установить
-
-## Установка
-
-Опишите шаги, которые необходимо выполнить для установки вашего проекта:
-
-1. Клонируйте репозиторий:
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/radik097/project-name.git
    ```
-
-2. Перейдите в каталог проекта:
+2. **Navigate to the project directory:**
    ```bash
    cd project-name
    ```
-
-3. Создайте и активируйте виртуальное окружение:
+3. **Create and activate a virtual environment:**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # Для Linux/macOS
-   venv\Scripts\activate  # Для Windows
+   source venv/bin/activate  # For Linux/macOS
+   venv\Scripts\activate  # For Windows
    ```
-
-4. Установите зависимости:
+4. **Install the required dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-## Использование
+### 4. Usage
 
-Опишите, как использовать ваш проект. Пример кода или команды, которые нужно выполнить для запусков:
+To start the Fortichat application, use the following command:
 
 ```bash
 python main.py
 ```
 
-### Опции командной строки
+#### Command Line Options
 
-Если ваш проект поддерживает параметры командной строки, опишите их здесь.
+The application does not explicitly mention command-line options, but the typical usage scenario involves starting the Flask server with the command above.
 
-## Поддержка
+### 5. Support
 
-Если у вас есть конкретные инструкции по сбору или запуску проекта, укажите их в этом разделе.
+For specific instructions on running the project, you can refer to the installation and usage sections. If you encounter any issues, the typical procedure involves checking the Flask server logs and ensuring that all dependencies are correctly installed.
 
-## История изменений
+### 6. Change Log
 
-Здесь можно кратко указать историю изменений вашего проекта:
+- **Version 0.5**
+  - Initial release.
 
-- Версия 0.5
-  - Первоначальный выпуск
+### 7. License
 
-## Лицензия
+This project is licensed under the [MIT License](LICENSE). Refer to the `LICENSE` file for more details.
 
-Этот проект лицензируется под [Название лицензии]. Подробнее читайте в файле `LICENSE`.
+---
+
+### Detailed Explanation of Project Files
+
+- **`index.html`**: The main page where users can select a chat partner, send messages, and view the chat history. It includes placeholders for dynamic content like user avatars and chat messages. The JavaScript file `scripts.js` handles the encryption and decryption of messages using the `forge` library【9†source】【10†source】.
+
+- **`login.html`**: The login page where users enter their credentials. Passwords are hashed using SHA-256 before being sent to the server, ensuring that sensitive data is not transmitted in plain text【11†source】.
+
+- **`register.html`**: The registration page where new users can create accounts. It includes an option to upload a profile picture, which is encoded in Base64 and sent to the server along with the username and hashed password【12†source】.
+
+- **`scripts.js`**: This JavaScript file contains the logic for encrypting/decrypting messages, handling user interactions, and communicating with the server via API calls. It uses the `forge` library for cryptographic operations【10†source】.
+
+- **`forge.all.min.js`**: A minimized version of the `forge` JavaScript library, which provides various cryptographic functions such as AES encryption and SHA-256 hashing. This library is crucial for ensuring the security of user data in Fortichat【13†source】.
+
+This structured approach in the `ReadMe.md` will help users understand the purpose, installation, and usage of the Fortichat project, while also giving them insight into the underlying technical details.
